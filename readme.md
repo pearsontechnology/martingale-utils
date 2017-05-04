@@ -9,12 +9,6 @@ Available once we opensource everything
 yarn add martingale-utilities
 ```
 
-Until we opensource everything
-
-```
-yarn add git@github.com:pearsontechnology/martingale-utils.git
-```
-
 ## Methods
 
 ### parseObjectPath(path)

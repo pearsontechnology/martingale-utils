@@ -1,0 +1,9 @@
+{
+  "name": "martingale-utils",
+  "version": "0.0.1",
+  "description": "Common functions and utilities for Martingale and its components",
+  "main": "index.js",
+  "repository": "https://github.com/pearsontechnology/martingale-utils.git",
+  "author": "Jeremy Darling <jeremy.darling@pearson.com>",
+  "license": "Apache-2.0"
+}

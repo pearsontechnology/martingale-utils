@@ -29,6 +29,19 @@ Currently the following will work
   getObjectValue('arr || this', {no: 'arr element'}) > {no: 'arr element'}
 //*/
 
+const toFunc = (args, src, obj)=>{
+  try {
+    const f = new Function(args, src).bind(obj);
+    return f;
+  } catch(e) {
+    console.error(e);
+    console.error('Args: ', args);
+    console.error('Source: ', src);
+    console.error('Data: ', obj);
+    return e;
+  }
+};
+
 const getObjectValue = (path, obj, defaultValue)=>{
   if(obj && typeof(obj)==='object'){
     const src = Object.keys(obj).reduce((src, key)=>{
@@ -39,7 +52,10 @@ const getObjectValue = (path, obj, defaultValue)=>{
       };
     }, {keys: [], values: []});
     // eslint-disable-next-line
-    const f = (new Function(src.keys, `return ${path};`)).bind(obj);
+    const f = toFunc(src.keys, `return ${path};`, obj);
+    if( f instanceof Error ){
+      throw f;
+    }
     try{
       const res = f(...src.values);
       return res;

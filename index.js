@@ -1,3 +1,3 @@
-const Utils = require('./lib/utils');
+const Utils = require('./lib');
 
 module.exports = Utils;

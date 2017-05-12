@@ -45,6 +45,9 @@ const toFunc = (args, src, obj)=>{
 const getObjectValue = (path, obj, defaultValue)=>{
   if(obj && typeof(obj)==='object'){
     const src = Object.keys(obj).reduce((src, key)=>{
+      if(isNumeric(key)){
+        return src;
+      }
       const value = obj[key];
       return {
         keys: src.keys.concat(key),

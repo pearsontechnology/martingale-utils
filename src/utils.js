@@ -38,6 +38,9 @@ const toFunc = (args, src, obj)=>{
     console.error('Args: ', args);
     console.error('Source: ', src);
     console.error('Data: ', obj);
+    e.args = args;
+    e.source = src;
+    e.data = obj;
     return e;
   }
 };

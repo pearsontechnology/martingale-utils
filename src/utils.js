@@ -56,7 +56,7 @@ const getObjectValue = (path, obj, defaultValue)=>{
         keys: src.keys.concat(key),
         values: [...src.values, value]
       };
-    }, {keys: ['getObjectValue'], values: [getObjectValue]});
+    }, {keys: ['getObjectValue', 'parseQuery', 'getQueryParam'], values: [getObjectValue, parseQuery, getQueryParam]});
     // eslint-disable-next-line
     const f = toFunc(src.keys, `return ${path};`, obj);
     if( f instanceof Error ){

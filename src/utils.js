@@ -266,6 +266,17 @@ const getQueryParam = (paramName, defaultValue)=>{
   return getObjectValue(paramName, params, defaultValue);
 };
 
+const makeQueryParams = (props, prefix)=>{
+  const propNames = Object.keys(props).filter((p)=>props.hasOwnProperty(p));
+  return propNames.map((p)=>{
+    const k = encodeURIComponent(p);
+    const key = prefix?`${prefix}[${k}]`:k;
+    const v = props[p];
+    const value = (typeof(v)==='object')?makeQueryParams(v, key):encodeURIComponent(props[p]);
+    return `${key}=${value}`;
+  }).join('&');
+};
+
 module.exports = {
   parseObjectPath,
   getObjectValue,
@@ -280,5 +291,6 @@ module.exports = {
   merge,
   typedValueOf,
   parseQuery,
-  getQueryParam
+  getQueryParam,
+  makeQueryParams
 };

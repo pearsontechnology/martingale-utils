@@ -57,8 +57,8 @@ const getObjectValue = (path, obj, defaultValue)=>{
         values: [...src.values, value]
       };
     }, {
-      keys: ['getObjectValue', 'parseQuery', 'getQueryParam', 'addQueryParams'],
-      values: [getObjectValue, parseQuery, getQueryParam, addQueryParams]
+      keys: ['getObjectValue', 'parseQuery', 'getQueryParam', 'addQueryParams', 'extractQueryParams'],
+      values: [getObjectValue, parseQuery, getQueryParam, addQueryParams, extractQueryParams]
     });
     // eslint-disable-next-line
     const f = toFunc(src.keys, `return ${path};`, obj);
@@ -285,6 +285,21 @@ const addQueryParams=(url, props)=>{
   return pageParams?`${url}?${pageParams}`:url;
 };
 
+const extractQueryParams=(paramNames, asString=true)=>{
+  const existingParams = parseQuery();
+  const params = paramNames.reduce((params, key)=>{
+    const value = getObjectValue(key, existingParams);
+    if(typeof(value)==='undefined'){
+      return params;
+    }
+    return Object.assign({}, params, {[key]: value});
+  }, {});
+  if(asString){
+    return addQueryParams('', params);
+  }
+  return params;
+};
+
 module.exports = {
   parseObjectPath,
   getObjectValue,
@@ -301,5 +316,6 @@ module.exports = {
   parseQuery,
   getQueryParam,
   makeQueryParams,
-  addQueryParams
+  addQueryParams,
+  extractQueryParams
 };

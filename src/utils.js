@@ -85,6 +85,23 @@ const getObjectValue = (path, obj, defaultValue)=>{
 
 const isNumeric = (n)=>!isNaN(parseFloat(n)) && isFinite(n);
 
+const reIsTrue = /^true$/i;
+const reIsFalse = /^false$/i;
+
+const isBoolean=(s)=>!!(reIsTrue.exec(s)||reIsFalse.exec(s));
+
+const strToBool=(s, defaultValue)=>{
+  if(reIsTrue.exec(s)){
+    return true;
+  }
+  if(reIsFalse.exec(s)){
+    return false;
+  }
+  return defaultValue;
+};
+
+const isDateTime=(s)=>!isNaN(Date.parse(s));
+
 const flatten = (a)=>{
   return Array.isArray(a) ? [].concat.apply([], a.map(flatten)) : a;
 };
@@ -204,13 +221,64 @@ const merge = (...args)=>{
   }, clone(args[0]));
 };
 
+const typedValueOf = (s)=>{
+  if(isNumeric(s)){
+    return +s;
+  }
+  if(isBoolean(s)){
+    return strToBool(s);
+  }
+  if(isDateTime(s)){
+    return new Date(Date.parse(s));
+  }
+  return s;
+};
+
+const parseQuery = (str=window.location.search.substring(1))=>{
+  if(typeof str != "string" || str.length == 0){
+    return {};
+  }
+  const s = str.split("&");
+  const s_length = s.length;
+  const query = {};
+  for(let i = 0; i < s_length; i++){
+    const bit = s[i].split("=");
+    const first = decodeURIComponent(bit[0]);
+    if(first.length == 0){
+      continue;
+    }
+    const second = typedValueOf(decodeURIComponent(bit[1]));
+    if(typeof(query[first]) === 'undefined'){
+      query[first] = second;
+      continue;
+    }
+    if(Array.isArray(query[first])){
+      query[first].push(second);
+      continue;
+    }
+    query[first] = [query[first], second];
+  }
+  return query;
+};
+
+const getQueryParam = (paramName, defaultValue)=>{
+  const params = parseQuery();
+  return getObjectValue(paramName, params, defaultValue);
+};
+
 module.exports = {
   parseObjectPath,
   getObjectValue,
   isNumeric,
+  isDateTime,
+  isBoolean,
+  strToBool,
   flatten,
   betterType,
   isTheSame,
   clone,
-  merge
+  merge,
+  typedValueOf,
+  parseQuery,
+  getQueryParam
 };

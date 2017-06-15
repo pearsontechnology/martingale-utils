@@ -56,7 +56,10 @@ const getObjectValue = (path, obj, defaultValue)=>{
         keys: src.keys.concat(key),
         values: [...src.values, value]
       };
-    }, {keys: ['getObjectValue', 'parseQuery', 'getQueryParam'], values: [getObjectValue, parseQuery, getQueryParam]});
+    }, {
+      keys: ['getObjectValue', 'parseQuery', 'getQueryParam', 'addQueryParams'],
+      values: [getObjectValue, parseQuery, getQueryParam, addQueryParams]
+    });
     // eslint-disable-next-line
     const f = toFunc(src.keys, `return ${path};`, obj);
     if( f instanceof Error ){
@@ -277,6 +280,11 @@ const makeQueryParams = (props, prefix)=>{
   }).join('&');
 };
 
+const addQueryParams=(url, props)=>{
+  const pageParams = makeQueryParams(props);
+  return pageParams?`${url}?${pageParams}`:url;
+};
+
 module.exports = {
   parseObjectPath,
   getObjectValue,
@@ -292,5 +300,6 @@ module.exports = {
   typedValueOf,
   parseQuery,
   getQueryParam,
-  makeQueryParams
+  makeQueryParams,
+  addQueryParams
 };

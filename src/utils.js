@@ -282,7 +282,10 @@ const makeQueryParams = (props, prefix)=>{
 
 const addQueryParams=(url, props)=>{
   const pageParams = makeQueryParams(props);
-  return pageParams?`${url}?${pageParams}`:url;
+  if(!pageParams){
+    return url;
+  }
+  return url.indexOf('?')>-1?`${url}&${pageParams}`:`${url}?${pageParams}`;
 };
 
 const extractQueryParams=(paramNames, asString=true)=>{

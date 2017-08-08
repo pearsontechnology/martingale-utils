@@ -1,15 +1,25 @@
-import fetch from 'isomorphic-fetch';
+import isofetch from 'isomorphic-fetch';
 import {
   merge
 } from './utils';
 
-const makeFetchOptions = (...options)=>{
+const appendCredentialsHeaders = (...options)=>{
   return merge({
     credentials: 'same-origin',
+    'no-cors': true
+  }, ...options);
+};
+
+const makeFetchOptions = (...options)=>{
+  return appendCredentialsHeaders({
     headers: {
       'Content-Type': 'application/json'
     }
   }, ...options);
+};
+
+const fetch = (url, options = {})=>{
+  return isofetch(url, appendCredentialsHeaders(options));
 };
 
 const encodePayload = (payload)=>{

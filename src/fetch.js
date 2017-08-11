@@ -11,7 +11,7 @@ const appendCredentialsHeaders = (...options)=>{
 };
 
 const makeFetchOptions = (...options)=>{
-  return appendCredentialsHeaders({
+  return merge({
     headers: {
       'Content-Type': 'application/json'
     }
@@ -19,7 +19,7 @@ const makeFetchOptions = (...options)=>{
 };
 
 const fetch = (url, options = {})=>{
-  return isofetch(url, appendCredentialsHeaders(options));
+  return isofetch(url, appendCredentialsHeaders(options))
 };
 
 const encodePayload = (payload)=>{

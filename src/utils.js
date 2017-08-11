@@ -1,3 +1,8 @@
+const {
+  singular,
+  plural
+} = require('pluralize');
+
 const parseObjectPath = (src)=>{
   const removeQuotes=(s)=>s.replace(/['"]/g, '');
   return src.match(/[^."'[\]]+|"([^"]+")|'([^']+')/g).map(removeQuotes);
@@ -57,8 +62,8 @@ const getObjectValue = (path, obj, defaultValue)=>{
         values: [...src.values, value]
       };
     }, {
-      keys: ['getObjectValue', 'parseQuery', 'getQueryParam', 'addQueryParams', 'extractQueryParams'],
-      values: [getObjectValue, parseQuery, getQueryParam, addQueryParams, extractQueryParams]
+      keys: ['getObjectValue', 'parseQuery', 'getQueryParam', 'addQueryParams', 'extractQueryParams', 'singular', 'plural'],
+      values: [getObjectValue, parseQuery, getQueryParam, addQueryParams, extractQueryParams, singular, plural]
     });
     // eslint-disable-next-line
     const f = toFunc(src.keys, `return ${path};`, obj);

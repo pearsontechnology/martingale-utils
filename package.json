@@ -17,5 +17,8 @@
     "babel-preset-es2015": "^6.24.1",
     "jest": "^19.0.2",
     "react-test-renderer": "^15.5.4"
+  },
+  "dependencies": {
+    "pluralize": "^5.0.0"
   }
 }

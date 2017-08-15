@@ -6,20 +6,40 @@ import {
 const appendCredentialsHeaders = (...options)=>{
   return merge({
     credentials: 'same-origin',
-    'no-cors': true
+    //credentials: 'include',
+    //'no-cors': true,
+    //mode: 'no-cors'
   }, ...options);
 };
 
 const makeFetchOptions = (...options)=>{
-  return merge({
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }, ...options);
+  const optionWithPayload = options.find((opt)=>typeof(opt.payload)!=='undefined');
+  if(optionWithPayload){
+    return merge({
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(optionWithPayload.payload)
+    }, ...options, {
+      method: (optionWithPayload.method||'POST').toUpperCase()
+    });
+  }
+  return merge(options);
 };
 
-const fetch = (url, options = {})=>{
-  return isofetch(url, appendCredentialsHeaders(options))
+const fetch = (...args)=>{
+  if(typeof(args[0])==='string'){
+    const [
+      url,
+      options
+    ] = args;
+    return isofetch(url, makeFetchOptions(appendCredentialsHeaders(options)));
+  }
+  const {
+    url,
+    ...options
+  } = args[0];
+  return isofetch(url, makeFetchOptions(appendCredentialsHeaders(options)));
 };
 
 const encodePayload = (payload)=>{
@@ -35,31 +55,30 @@ const encodePayload = (payload)=>{
 };
 
 const fetchJson=({url, callback, payload, ...options})=>{
-  return fetch(url, makeFetchOptions(options, {body: encodePayload(payload)}))
+  return fetch(url, makeFetchOptions(options, {payload}))
     .then((response)=>{
       const {
         headers
       } = response;
-      const contentType = headers.has('Content-Type')?headers.get('Content-Type'):'text/plain';
-      if(contentType.match('json')){
-        return response.json()
-        .then((json)=>{
+      const contentType = headers.get('Content-Type');
+      const r = response.clone().json().catch((e)=>{
+        console.error('Not JSON', url, e);
+        return response.text();
+      });
+      return r
+        .then(json=>{
           return callback(null, json, response, contentType);
         })
-        .catch((err)=>callback(err));
-      }
-      return response.text()
-      .then((respText)=>{
-        return callback(null, respText, response, contentType);
-      })
-      .catch((err)=>callback(err));
+        .catch(e=>{
+          console.error(url, e);
+          return callback(e);
+        });
     })
     .catch((err)=>callback(err));
 };
 
 const postJson=({method="post", body, payload, ...options})=>{
-  const jsonBody = JSON.stringify(payload || body);
-  fetchJson(makeFetchOptions(options, {method, body: jsonBody}));
+  fetchJson(makeFetchOptions(options, {method, payload: payload||body}));
 };
 
 module.exports = {

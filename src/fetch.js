@@ -24,7 +24,7 @@ const makeFetchOptions = (...options)=>{
       method: (optionWithPayload.method||'POST').toUpperCase()
     });
   }
-  return merge(options);
+  return merge(...options);
 };
 
 const getFetchArgs = (...args)=>{
@@ -49,7 +49,9 @@ const getFetchArgs = (...args)=>{
 };
 
 const getFetch = (url, options)=>{
-  return isofetch(url, makeFetchOptions(appendCredentialsHeaders(options)));
+  const withCreds = appendCredentialsHeaders(options);
+  const fetchOptions = makeFetchOptions(withCreds);
+  return isofetch(url, fetchOptions);
 };
 
 const fetch = (...args)=>{
@@ -57,7 +59,7 @@ const fetch = (...args)=>{
     url,
     options: fOptions
   } = getFetchArgs(...args);
-  const options = Array.isArray(fOptions)?Object.assign(...fOptions):fOptions;
+  const options = Array.isArray(fOptions)?merge(...fOptions):fOptions;
   const fetch = getFetch(url, options);
   if(typeof(options.callback)!=='function'){
     return fetch;
@@ -97,12 +99,11 @@ const encodePayload = (payload)=>{
   return JSON.stringify(payload);
 };
 
-const fetchJson=({url, payload, ...options})=>{
-  return fetch(url, makeFetchOptions(options, {payload}));
-};
+const fetchJson = fetch;
 
-const postJson=({method="post", body, payload, ...options})=>{
-  fetchJson(makeFetchOptions(options, {method, payload: payload||body}));
+const postJson=(options)=>{//}{method="post", body, payload, ...options})=>{
+  console.log('postJson', options)
+  return fetchJson(Object.assign({method: 'post'}, options));
 };
 
 module.exports = {

@@ -308,6 +308,13 @@ const extractQueryParams=(paramNames, asString=true)=>{
   return params;
 };
 
+const isErrorObject = (o)=>{
+  if(betterType(o)==='object'){
+    return o.statusCode && o.error && o.message;
+  }
+  return false;
+};
+
 module.exports = {
   parseObjectPath,
   getObjectValue,
@@ -325,5 +332,6 @@ module.exports = {
   getQueryParam,
   makeQueryParams,
   addQueryParams,
-  extractQueryParams
+  extractQueryParams,
+  isErrorObject
 };

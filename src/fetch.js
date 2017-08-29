@@ -3,6 +3,45 @@ import {
   merge
 } from './utils';
 
+const authToHeaders = (options)=>{
+  if(options.auth){
+    const {
+      username,
+      password,
+      bearer,
+      raw,
+      aws4
+    } = options.auth;
+    options.headers = options.headers || {};
+    if(username && password){
+      const unp = new Buffer(username + ':' + password).toString('base64');
+      options.headers = Object.assign(options.headers, {Authorization: 'Basic ' + unp});
+      return options;
+    }
+    if(bearer){
+      options.headers = Object.assign(options.headers, {Authorization: 'Bearer ' + bearer});
+      return options;
+    }
+    if(raw){
+      options.headers = Object.assign(options.headers, {Authorization: raw});
+      return options;
+    }
+    if(aws4){
+      const uri = options.url || options.uri;
+      const uriConfig = !uri?options:URL.parse(uri);
+      const hostParts = uriConfig.host.split('.');
+      uriConfig.service = uriConfig.service || hostParts[0];
+      uriConfig.headers = uriConfig.headers || {};
+      uriConfig.headers['content-type'] = 'application/json';
+      if(hostParts[1]!=='amazonaws'){
+        uriConfig.region = hostParts[1];
+      }
+      return AWS4.sign(uriConfig, aws4);
+    }
+  }
+  return options;
+};
+
 const appendCredentialsHeaders = (...options)=>{
   return merge({
     credentials: 'same-origin',
@@ -48,8 +87,8 @@ const getFetchArgs = (...args)=>{
   };
 };
 
-const getFetch = (url, options)=>{
-  const withCreds = appendCredentialsHeaders(options);
+const getFetch = (url, options = {})=>{
+  const withCreds = options.auth?authToHeaders(options):appendCredentialsHeaders(options);
   const fetchOptions = makeFetchOptions(withCreds);
   return isofetch(url, fetchOptions);
 };

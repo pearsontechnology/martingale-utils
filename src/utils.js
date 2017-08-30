@@ -74,8 +74,13 @@ const getObjectValue = (path, obj, defaultValue)=>{
       const res = f(...src.values);
       return res;
     }catch(e){
-      console.debug(e);
-      console.debug('Path: ', path, 'Object: ', obj);
+      if(typeof(defaultValue)!=='undefined'){
+        console.debug(e);
+        console.debug('Path: ', path, 'Object: ', obj);
+        return defaultValue;
+      }
+      console.error(e);
+      console.error('Path: ', path, 'Object: ', obj);
       return defaultValue;
     }
   }

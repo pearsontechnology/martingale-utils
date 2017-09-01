@@ -3,10 +3,8 @@
 
 ## Install
 
-Available once we opensource everything
-
 ```sh
-yarn add martingale-utilities
+yarn add martingale-utils
 ```
 
 # API Documentation

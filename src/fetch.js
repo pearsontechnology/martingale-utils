@@ -2,6 +2,23 @@ import isofetch from 'isomorphic-fetch';
 import {
   merge
 } from './utils';
+const AWS4 = require('aws4');
+
+/**
+ * Callback for fetch wrappers
+ * @callback fetchCallback
+ * @param {object} error - Error if any
+ * @param {object} result - String or JSON Object returned from the operation
+ */
+
+/**
+ * @class fetchAuth
+ * @param {string} username - Username to use for authentication
+ * @param {string} password - Password to use for authentication
+ * @param {string} bearer - Bearer Token to use for authentication
+ * @param {string} raw - Whatever you want passed in the authentication header
+ * @param {AWS4Auth} aws4 - Passed almost directly into AWS4.sign() See https://github.com/mhart/aws4 for more info
+ */
 
 const authToHeaders = (options)=>{
   if(options.auth){
@@ -93,6 +110,16 @@ const getFetch = (url, options = {})=>{
   return isofetch(url, fetchOptions);
 };
 
+/**
+ * Wrapper around isomorphic-fetch library to provide common functionality such as callback usage and auto parsing of returned values into JSON objects
+ * @param {object} options
+ * @param {string} options.url - URL to fetch from
+ * @param {string} options.method - HTTP method to fetch with, defaults to GET
+ * @param {object} options.headers - Headers to pass along to the fetch object
+ * @param {fetchAuth} options.auth - Authorization Object
+ * @param {...object} options.rest - Everything else is passed directly through to isomorphic-fetch
+ * @param {fetchCallback} options.callback - Callback to be run when fetch operation completes
+ */
 const fetch = (...args)=>{
   const {
     url,

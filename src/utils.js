@@ -3,36 +3,20 @@ const {
   plural
 } = require('pluralize');
 
+/**
+ * Takes in a string and returns an array of strings that define a path.
+ * Splits based on quotes, .'s and. []'s
+ * @param {string} source - Source string to parse
+ * @return {array} Array of strings
+ *
+ * @example
+ * const res = parseObjectPath('foo.bar[0]."biz-baz"');
+ * // res would equal: ['foo', 'bar', '0', 'biz-baz']
+ */
 const parseObjectPath = (src)=>{
   const removeQuotes=(s)=>s.replace(/['"]/g, '');
   return src.match(/[^."'[\]]+|"([^"]+")|'([^']+')/g).map(removeQuotes);
 };
-
-/*
-Currently the following will work
-  const data = {
-    foo:{
-      bar: [
-        'bar 0',
-        {
-          some: 'value'
-        },
-        'bar 2'
-      ]
-    },
-    'foo.bar': 'Different, eh?'
-  };
-
-  getObjectValue('foo', data);
-  getObjectValue('foo.bar.0', data);
-  getObjectValue('foo.bar[0]', data);
-  getObjectValue('"foo.bar"', data);
-  getObjectValue('\'foo.bar\'', data);
-
-  getObjectValue('arr[arr.length-1]', {arr: [0, 1, 2]}) > 2
-  getObjectValue('arr[idx]', {arr: [0, 1, 2], idx: 1}) > 1
-  getObjectValue('arr || this', {no: 'arr element'}) > {no: 'arr element'}
-//*/
 
 const toFunc = (args, src, obj)=>{
   try {
@@ -50,6 +34,38 @@ const toFunc = (args, src, obj)=>{
   }
 };
 
+/**
+ * Returns the value from the path or calculation against the given object, if no value is found then returns defaultValue
+ * @param {string} path - Path to the value to be returned
+ * @param {object} obj - Object to retrieve value from
+ * @param {any} defaultValue - Value to return if the value could not be found or calculated from the object passed in
+ *
+ * @example
+ * //Currently the following will work
+ * const data = {
+ *   foo:{
+ *     bar: [
+ *       'bar 0',
+ *       {
+ *         some: 'value'
+ *       },
+ *       'bar 2'
+ *     ]
+ *   },
+ *   'foo.bar': 'Different, eh?'
+ * };
+ *
+ * getObjectValue('foo', data);
+ * getObjectValue('foo.bar.0', data);
+ * getObjectValue('foo.bar[0]', data);
+ * getObjectValue('"foo.bar"', data);
+ * getObjectValue('\'foo.bar\'', data);
+ *
+ * getObjectValue('arr[arr.length-1]', {arr: [0, 1, 2]}) > 2
+ * getObjectValue('arr[idx]', {arr: [0, 1, 2], idx: 1}) > 1
+ * getObjectValue('arr || this', {no: 'arr element'}) > {no: 'arr element'}
+ *
+ */
 const getObjectValue = (path, obj, defaultValue)=>{
   if(obj && typeof(obj)==='object'){
     const src = Object.keys(obj).reduce((src, key)=>{
@@ -96,13 +112,29 @@ const getObjectValue = (path, obj, defaultValue)=>{
   }
 };
 
+/**
+ * Returns true is the passed in value is a numeric value or false if it is not
+ * @param {any} n - The value to test
+ * @return {boolean} true if the value was a numeric value, false it it was not
+ */
 const isNumeric = (n)=>!isNaN(parseFloat(n)) && isFinite(n);
 
 const reIsTrue = /^true$/i;
 const reIsFalse = /^false$/i;
 
+/**
+ * Returns true is the passed in value is "true" or "false" (strings)
+ * @param {string} s - The value to test
+ * @return {boolean} true if the value was either "true" or "false", returns false otherwise
+ */
 const isBoolean=(s)=>!!(reIsTrue.exec(s)||reIsFalse.exec(s));
 
+/**
+ * Returns true is the passed in value is "true", false if the passed in value was "false", or defaultValue if the passed in value was not "true" or "false"
+ * @param {string} s - The value to test
+ * @param {any} defaultValue - Value to return if not "true" or "false" is passed in
+ * @return {boolean}
+ */
 const strToBool=(s, defaultValue)=>{
   if(reIsTrue.exec(s)){
     return true;
@@ -113,12 +145,27 @@ const strToBool=(s, defaultValue)=>{
   return defaultValue;
 };
 
+/**
+ * Returns true is the passed in value is a valid value that Date.parse() can parse, otherwise returns false.
+ * @param {string} s - The value to test
+ * @return {boolean} true if the value was a valid value that Date.parse() could parse.
+ */
 const isDateTime=(s)=>!isNaN(Date.parse(s));
 
+/**
+ * Flattens an Array of Arrays
+ * @param {array} a - Array of Array's
+ * @return {array} the flattened array
+ */
 const flatten = (a)=>{
   return Array.isArray(a) ? [].concat.apply([], a.map(flatten)) : a;
 };
 
+/**
+ * Returns the type of the value passed in.
+ * @param {any} o - Value to find type of
+ * @return {('object'|'array'|'date'|'regex'|'null'|'undefined'|'number'|'boolean'|'string'|'symbol'|'function')} The type of the value passed in
+ */
 const betterType = (o)=>{
   const type = typeof(o);
   if(type === 'object'){
@@ -172,6 +219,12 @@ const typeCheckers={
   }
 };
 
+/**
+ * Performs a deep test of o1 and o2 to see if they are the same.  Recursivly steps through Object Keys/Values and Arrays to check all child types.
+ * @param {any} o1 - First value to test
+ * @param {any} o2 - Second value to test
+ * @return {boolean} Returns true if the two are the same, false otherwise
+ */
 const isTheSame = (o1, o2)=>{
   const type = betterType(o1)
   if(type!==betterType(o2)){
@@ -181,6 +234,10 @@ const isTheSame = (o1, o2)=>{
   return checker(o1, o2);
 };
 
+/**
+ * Creates a deep copy of the source and returns it
+ * @param {any} src - Thing to clone
+ */
 const clone = (src)=>{
   if(null === src || typeof(src) !== 'object'){
     return src;
@@ -206,6 +263,9 @@ const clone = (src)=>{
   }, {});
 };
 
+/**
+ * Performs a recursive merge of all values passed in, if two values are different (string and object as an example) then a new Array will be created that contains both values.
+ */
 const merge = (...args)=>{
   if(!args.length){
     return {};
@@ -234,6 +294,11 @@ const merge = (...args)=>{
   }, clone(args[0]));
 };
 
+/**
+ * Accepts a string and returns the typed value of it, Boolean, Number, or Date().  If the string isn't a Boolean, Number, or Date(), then returns the origional string.
+ * @param {string} s - The string to transform
+ * @return {number|boolean|date|string} - The transformed value
+ */
 const typedValueOf = (s)=>{
   if(isNumeric(s)){
     return +s;
@@ -247,6 +312,11 @@ const typedValueOf = (s)=>{
   return s;
 };
 
+/**
+ * Prases the query part of the window.location.search or the passed in string and returns it as a JavaScript Object.  Creates Arrays or Objects for nested values.
+ * @param {string} str - The value to parse
+ * @return {object} Object representing the key/value paris found in the query string.
+ */
 const parseQuery = (str=window.location.search.substring(1))=>{
   if(typeof str != "string" || str.length == 0){
     return {};
@@ -274,11 +344,23 @@ const parseQuery = (str=window.location.search.substring(1))=>{
   return query;
 };
 
+/**
+ * Returns the value of the requested query parameter or defaultValue if it isn't found in the query string.
+ * @param {string} paramName - Name of the query parameter to fetch.
+ * @param {any} defaultValue - Value to return if it isn't found.
+ * @return {any} Value found or defaultValue
+ */
 const getQueryParam = (paramName, defaultValue)=>{
   const params = parseQuery();
   return getObjectValue(paramName, params, defaultValue);
 };
 
+/**
+ * Accepts an Object and an optional prefix and returns a valid query string representation of it.
+ * @param {object} props - JavaScript object to convert to query string
+ * @param {string} prefix - Optional prefix to prepend to the name
+ * @return {string} Query string representation of the object
+ */
 const makeQueryParams = (props, prefix)=>{
   const propNames = Object.keys(props).filter((p)=>props.hasOwnProperty(p));
   return propNames.map((p)=>{
@@ -290,6 +372,12 @@ const makeQueryParams = (props, prefix)=>{
   }).join('&');
 };
 
+/**
+ * Appends the given object as query string values to the passed in url
+ * @param {string} url - The URL to append values to
+ * @param {object} props - JavaScript object of values to be appeneded
+ * @return {string} Mutated URL with new properties appended to it
+ */
 const addQueryParams=(url, props)=>{
   const pageParams = makeQueryParams(props);
   if(!pageParams){
@@ -298,6 +386,12 @@ const addQueryParams=(url, props)=>{
   return url.indexOf('?')>-1?`${url}&${pageParams}`:`${url}?${pageParams}`;
 };
 
+/**
+ * Extracts only the query parameters requested and returns them either as a query string an object.
+ * @param {array} paramNames - Array of named parameters to extract
+ * @param {boolean} asString - If true then values will be returned as a query string value, otherwise returned as an object
+ * @return {string|object} The resulting extracted values
+ */
 const extractQueryParams=(paramNames, asString=true)=>{
   const existingParams = parseQuery();
   const params = paramNames.reduce((params, key)=>{
@@ -313,6 +407,11 @@ const extractQueryParams=(paramNames, asString=true)=>{
   return params;
 };
 
+/**
+ * Tests the passed in object to see if it is a server side error object.
+ * @param {object} o - The object to test.
+ * @return {boolean} Returns true if the passed value is a server side error, false if it was not.
+ */
 const isErrorObject = (o)=>{
   if(betterType(o)==='object'){
     return o.statusCode && o.error && o.message;

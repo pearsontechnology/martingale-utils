@@ -9,6 +9,24 @@ Available once we opensource everything
 yarn add martingale-utilities
 ```
 
+# API Documentation
+
+See [docs/readme.md](docs/readme.md) for the API Documentation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Methods
 
 ### parseObjectPath(path)

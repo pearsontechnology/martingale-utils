@@ -107,6 +107,7 @@ const getFetchArgs = (...args)=>{
 const getFetch = (url, options = {})=>{
   const withCreds = options.auth?authToHeaders(options):appendCredentialsHeaders(options);
   const fetchOptions = makeFetchOptions(withCreds);
+  console.debug('Fetching: ', url, fetchOptions);
   return isofetch(url, fetchOptions);
 };
 

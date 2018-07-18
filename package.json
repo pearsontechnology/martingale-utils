@@ -1,5 +1,5 @@
 {
-  "name": "martingale-utils",
+  "name": "@martingale/utils",
   "version": "0.0.1",
   "description": "Common functions and utilities for Martingale and its components",
   "main": "index.js",

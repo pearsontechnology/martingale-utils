@@ -15,7 +15,8 @@
     "compile":
       "NODE_ENV=production babel --presets es2015 --plugins transform-es2015-destructuring,transform-object-rest-spread src --out-dir lib",
     "doc":
-      "mkdir -p docs && documentation build src/index.js --format md > docs/readme.md"
+      "mkdir -p docs && documentation build src/index.js --format md > docs/readme.md",
+    "test": "jest"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

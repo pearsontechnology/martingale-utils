@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+- '8'
+- '10'
+deploy:
+  provider: npm
+  email: jeremy.darling@gmail.com
+  api_key:
+    secure: QazZoiD3VClougU8VOm2e/7AV4P7Z2BV2C2WBS89ybf0AOEx6xtJ1TaQRGGjgsIwA0Ig05iMkWGncSKcNA3tpZl+WK8GvaPJTLSff2jKBXFkGUPxpJnMzbJVPBDkJ+92CrGMsU+oxD+WziZ4mQuD7TYEPW35rh2oNI6v09O1/9KtVV5fxfVo6Jg2mkGH4LPWcKVwyJTxPUjvOO62+YKl7zJwoLIaDFVWluWPtp55vYOGn0HS+JFVcefdSUxpBjhTx7E7mJE4lMJOwdKh31mkwDq0h0dpopZScN8e0XEfEmTOXimLY6fTKwAeptS6s9XsxnzVpje9uB9kcgwvz1nmA4ixLIR18vkOTWoZN8lukjpHUyWkZ5YXWOlIkCeFhCaaigzFWG31JAnPIOEKpKKAPFg3E1niaTr84rFI3kOAtjZDgAV95OjRUk7SC75o/T+LDWHQhN/SxPXhMSpoRMxDOnIK0duoUegl1RpFlMmXFTQ5fo6aMoHWVIUepWF76Ow+kpLyw4YUyyQnzDHzMUaI79Ly/kqJlRp7u5uJv3jtLY15IgmYsmGBj1rqBBaTLcFEAkGK3LPZRnep/W+phVSM2CXMDOSP/wIQOSqceQ4dIq5yCaJzzeOHL3FlMr29Vxt0VZh14RiCUBM5IEeCZbsUMquuGgXlE3GqiJT/P76FkL0=
+  on:
+    tags: true
+    repo: pearsontechnology/martingale-utils

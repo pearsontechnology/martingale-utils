@@ -1,8 +1,7 @@
 {
   "name": "@martingale/utils",
-  "version": "0.0.1",
-  "description":
-    "Common functions and utilities for Martingale and its components",
+  "version": "0.0.2",
+  "description": "Common functions and utilities for Martingale and its components",
   "main": "index.js",
   "private": false,
   "repository": {
@@ -12,10 +11,8 @@
   "author": "Jeremy Darling <jeremy.darling@pearson.com>",
   "license": "Apache-2.0",
   "scripts": {
-    "compile":
-      "NODE_ENV=production babel --presets es2015 --plugins transform-es2015-destructuring,transform-object-rest-spread src --out-dir lib",
-    "doc":
-      "mkdir -p docs && documentation build src/index.js --format md > docs/readme.md",
+    "compile": "NODE_ENV=production babel --presets es2015 --plugins transform-es2015-destructuring,transform-object-rest-spread src --out-dir lib",
+    "doc": "mkdir -p docs && documentation build src/index.js --format md > docs/readme.md",
     "test": "jest"
   },
   "devDependencies": {
@@ -41,5 +38,8 @@
     "doc": "docs",
     "lib": "lib"
   },
-  "keywords": ["Martingale", "utilities"]
+  "keywords": [
+    "Martingale",
+    "utilities"
+  ]
 }

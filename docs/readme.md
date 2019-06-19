@@ -2,50 +2,48 @@
 
 ### Table of Contents
 
--   [fetchAuth](#fetchauth)
--   [fetchCallback](#fetchcallback)
--   [fetch](#fetch)
--   [parseObjectPath](#parseobjectpath)
--   [getObjectValue](#getobjectvalue)
--   [isNumeric](#isnumeric)
--   [isBoolean](#isboolean)
--   [strToBool](#strtobool)
--   [isDateTime](#isdatetime)
--   [flatten](#flatten)
--   [betterType](#bettertype)
--   [isTheSame](#isthesame)
--   [clone](#clone)
--   [merge](#merge)
--   [typedValueOf](#typedvalueof)
--   [parseQuery](#parsequery)
--   [getQueryParam](#getqueryparam)
--   [makeQueryParams](#makequeryparams)
--   [addQueryParams](#addqueryparams)
--   [extractQueryParams](#extractqueryparams)
--   [isErrorObject](#iserrorobject)
+-   [fetchAuth][1]
+-   [fetchCallback][2]
+-   [fetch][3]
+-   [parseObjectPath][4]
+-   [getObjectValue][5]
+-   [isNumeric][6]
+-   [isBoolean][7]
+-   [strToBool][8]
+-   [isDateTime][9]
+-   [flatten][10]
+-   [betterType][11]
+-   [isTheSame][12]
+-   [clone][13]
+-   [merge][14]
+-   [typedValueOf][15]
+-   [parseQuery][16]
+-   [getQueryParam][17]
+-   [makeQueryParams][18]
+-   [addQueryParams][19]
+-   [extractQueryParams][20]
+-   [isErrorObject][21]
 
 ## fetchAuth
 
 **Parameters**
 
--   `options`  
--   `username` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Username to use for authentication
--   `password` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Password to use for authentication
--   `bearer` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Bearer Token to use for authentication
--   `raw` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Whatever you want passed in the authentication header
--   `aws4` **AWS4Auth** Passed almost directly into AWS4.sign() See <https://github.com/mhart/aws4> for more info
+-   `username` **[string][22]** Username to use for authentication
+-   `password` **[string][22]** Password to use for authentication
+-   `bearer` **[string][22]** Bearer Token to use for authentication
+-   `raw` **[string][22]** Whatever you want passed in the authentication header
+-   `aws4` **AWS4Auth** Passed almost directly into AWS4.sign() See [https://github.com/mhart/aws4][23] for more info
 
 ## fetchCallback
 
 Callback for fetch wrappers
 
-Type: [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)
+Type: [Function][24]
 
 **Parameters**
 
--   `options`  
--   `error` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Error if any
--   `result` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** String or JSON Object returned from the operation
+-   `error` **[object][25]** Error if any
+-   `result` **[object][25]** String or JSON Object returned from the operation
 
 ## fetch
 
@@ -54,13 +52,13 @@ Wrapper around isomorphic-fetch library to provide common functionality such as 
 **Parameters**
 
 -   `args` **...any** 
--   `options` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-    -   `options.url` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** URL to fetch from
-    -   `options.method` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** HTTP method to fetch with, defaults to GET
-    -   `options.headers` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Headers to pass along to the fetch object
-    -   `options.auth` **[fetchAuth](#fetchauth)** Authorization Object
-    -   `options.rest` **...[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Everything else is passed directly through to isomorphic-fetch
-    -   `options.callback` **[fetchCallback](#fetchcallback)** Callback to be run when fetch operation completes
+-   `options` **[object][25]** 
+    -   `options.url` **[string][22]** URL to fetch from
+    -   `options.method` **[string][22]** HTTP method to fetch with, defaults to GET
+    -   `options.headers` **[object][25]** Headers to pass along to the fetch object
+    -   `options.auth` **[fetchAuth][26]** Authorization Object
+    -   `options.rest` **...[object][25]** Everything else is passed directly through to isomorphic-fetch
+    -   `options.callback` **[fetchCallback][27]** Callback to be run when fetch operation completes
 
 ## parseObjectPath
 
@@ -70,7 +68,7 @@ Splits based on quotes, .'s and. \[]'s
 **Parameters**
 
 -   `src`  
--   `source` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Source string to parse
+-   `source` **[string][22]** Source string to parse
 
 **Examples**
 
@@ -79,7 +77,7 @@ const res = parseObjectPath('foo.bar[0]."biz-baz"');
 // res would equal: ['foo', 'bar', '0', 'biz-baz']
 ```
 
-Returns **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of strings
+Returns **[array][28]** Array of strings
 
 ## getObjectValue
 
@@ -87,8 +85,8 @@ Returns the value from the path or calculation against the given object, if no v
 
 **Parameters**
 
--   `path` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Path to the value to be returned
--   `obj` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object to retrieve value from
+-   `path` **[string][22]** Path to the value to be returned
+-   `obj` **[object][25]** Object to retrieve value from
 -   `defaultValue` **any** Value to return if the value could not be found or calculated from the object passed in
 
 **Examples**
@@ -127,7 +125,7 @@ Returns true is the passed in value is a numeric value or false if it is not
 
 -   `n` **any** The value to test
 
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** true if the value was a numeric value, false it it was not
+Returns **[boolean][29]** true if the value was a numeric value, false it it was not
 
 ## isBoolean
 
@@ -135,9 +133,9 @@ Returns true is the passed in value is "true" or "false" (strings)
 
 **Parameters**
 
--   `s` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The value to test
+-   `s` **[string][22]** The value to test
 
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** true if the value was either "true" or "false", returns false otherwise
+Returns **[boolean][29]** true if the value was either "true" or "false", returns false otherwise
 
 ## strToBool
 
@@ -145,10 +143,10 @@ Returns true is the passed in value is "true", false if the passed in value was 
 
 **Parameters**
 
--   `s` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The value to test
+-   `s` **[string][22]** The value to test
 -   `defaultValue` **any** Value to return if not "true" or "false" is passed in
 
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
+Returns **[boolean][29]** 
 
 ## isDateTime
 
@@ -156,9 +154,9 @@ Returns true is the passed in value is a valid value that Date.parse() can parse
 
 **Parameters**
 
--   `s` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The value to test
+-   `s` **[string][22]** The value to test
 
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** true if the value was a valid value that Date.parse() could parse.
+Returns **[boolean][29]** true if the value was a valid value that Date.parse() could parse.
 
 ## flatten
 
@@ -166,9 +164,9 @@ Flattens an Array of Arrays
 
 **Parameters**
 
--   `a` **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of Array's
+-   `a` **[array][28]** Array of Array's
 
-Returns **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** the flattened array
+Returns **[array][28]** the flattened array
 
 ## betterType
 
@@ -189,7 +187,7 @@ Performs a deep test of o1 and o2 to see if they are the same.  Recursivly steps
 -   `o1` **any** First value to test
 -   `o2` **any** Second value to test
 
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Returns true if the two are the same, false otherwise
+Returns **[boolean][29]** Returns true if the two are the same, false otherwise
 
 ## clone
 
@@ -213,9 +211,9 @@ Accepts a string and returns the typed value of it, Boolean, Number, or Date(). 
 
 **Parameters**
 
--   `s` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The string to transform
+-   `s` **[string][22]** The string to transform
 
-Returns **([number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean) \| [date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) \| [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** The transformed value
+Returns **([number][30] \| [boolean][29] \| [date][31] \| [string][22])** The transformed value
 
 ## parseQuery
 
@@ -223,9 +221,9 @@ Prases the query part of the window.location.search or the passed in string and 
 
 **Parameters**
 
--   `str` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The value to parse (optional, default `window.location.search.substring(1)`)
+-   `str` **[string][22]** The value to parse (optional, default `window.location.search.substring(1)`)
 
-Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object representing the key/value paris found in the query string.
+Returns **[object][25]** Object representing the key/value paris found in the query string.
 
 ## getQueryParam
 
@@ -233,7 +231,7 @@ Returns the value of the requested query parameter or defaultValue if it isn't f
 
 **Parameters**
 
--   `paramName` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Name of the query parameter to fetch.
+-   `paramName` **[string][22]** Name of the query parameter to fetch.
 -   `defaultValue` **any** Value to return if it isn't found.
 
 Returns **any** Value found or defaultValue
@@ -244,10 +242,10 @@ Accepts an Object and an optional prefix and returns a valid query string repres
 
 **Parameters**
 
--   `props` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** JavaScript object to convert to query string
--   `prefix` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Optional prefix to prepend to the name
+-   `props` **[object][25]** JavaScript object to convert to query string
+-   `prefix` **[string][22]** Optional prefix to prepend to the name
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Query string representation of the object
+Returns **[string][22]** Query string representation of the object
 
 ## addQueryParams
 
@@ -255,10 +253,10 @@ Appends the given object as query string values to the passed in url
 
 **Parameters**
 
--   `url` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The URL to append values to
--   `props` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** JavaScript object of values to be appeneded
+-   `url` **[string][22]** The URL to append values to
+-   `props` **[object][25]** JavaScript object of values to be appeneded
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Mutated URL with new properties appended to it
+Returns **[string][22]** Mutated URL with new properties appended to it
 
 ## extractQueryParams
 
@@ -266,10 +264,10 @@ Extracts only the query parameters requested and returns them either as a query 
 
 **Parameters**
 
--   `paramNames` **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of named parameters to extract
--   `asString` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** If true then values will be returned as a query string value, otherwise returned as an object (optional, default `true`)
+-   `paramNames` **[array][28]** Array of named parameters to extract
+-   `asString` **[boolean][29]** If true then values will be returned as a query string value, otherwise returned as an object (optional, default `true`)
 
-Returns **([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** The resulting extracted values
+Returns **([string][22] \| [object][25])** The resulting extracted values
 
 ## isErrorObject
 
@@ -277,6 +275,68 @@ Tests the passed in object to see if it is a server side error object.
 
 **Parameters**
 
--   `o` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** The object to test.
+-   `o` **[object][25]** The object to test.
 
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Returns true if the passed value is a server side error, false if it was not.
+Returns **[boolean][29]** Returns true if the passed value is a server side error, false if it was not.
+
+[1]: #fetchauth
+
+[2]: #fetchcallback
+
+[3]: #fetch
+
+[4]: #parseobjectpath
+
+[5]: #getobjectvalue
+
+[6]: #isnumeric
+
+[7]: #isboolean
+
+[8]: #strtobool
+
+[9]: #isdatetime
+
+[10]: #flatten
+
+[11]: #bettertype
+
+[12]: #isthesame
+
+[13]: #clone
+
+[14]: #merge
+
+[15]: #typedvalueof
+
+[16]: #parsequery
+
+[17]: #getqueryparam
+
+[18]: #makequeryparams
+
+[19]: #addqueryparams
+
+[20]: #extractqueryparams
+
+[21]: #iserrorobject
+
+[22]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[23]: https://github.com/mhart/aws4
+
+[24]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+
+[25]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+[26]: #fetchauth
+
+[27]: #fetchcallback
+
+[28]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+
+[29]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+
+[30]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+
+[31]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date
